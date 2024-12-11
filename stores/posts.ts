@@ -5,7 +5,7 @@ type Reaction = {
   dislikes: number;
 };
 
-type Post = {
+export type Post = {
   id: number;
   title: string;
   body: string;
@@ -37,7 +37,10 @@ export const usePostStore = defineStore("postStore", {
       this.posts = data.posts;
     },
     delete(id: number) {
-      this.posts = this.posts.filter((p) => p.id !== id)
-    }
+      this.posts = this.posts.filter((p) => p.id !== id);
+    },
+    detail(id: number) {
+      return this.posts.find((p) => p.id === id) as Post;
+    },
   },
 });
