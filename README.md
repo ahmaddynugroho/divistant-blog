@@ -1,4 +1,5 @@
 # Blog App
+site: https://divistant-blog.vercel.app/
 
 ## Daftar Fitur
 1. List post dengan data dari https://dummyjson.com/docs/posts
@@ -14,6 +15,7 @@
 11. Form Validation
 12. Feedback fetching posts dan edit/buat post
 13. Menggunakan Nuxt dan Typescript
+14. Deploy ke Vercel
 
 ## Setup
 
