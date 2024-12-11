@@ -11,6 +11,13 @@ const auth = useAuthStore()
       outlined
     />
     <Button
+      v-if="auth.loggedIn"
+      label="Add Post"
+      @click="async () => await navigateTo('/post/add')"
+      severity="secondary"
+      outlined
+    />
+    <Button
       v-if="!auth.loggedIn"
       label="Login"
       @click="async () => await navigateTo('/login')"
