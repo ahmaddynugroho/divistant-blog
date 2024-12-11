@@ -1,5 +1,12 @@
+<script setup lang="ts">
+const counter = useCounterStore()
+
+</script>
+
 <template>
   <div>
+    <p>{{ counter.count }}</p>
+    <Button label="increment" @click="counter.increment" />
     <h1 class="text-3xl font-bold underline">tailwind test</h1>
     <h1 class="text-3xl font-bold underline text-primary-400">tailwind test</h1>
     <Button label="Verify" />
