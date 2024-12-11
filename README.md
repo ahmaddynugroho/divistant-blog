@@ -1,6 +1,19 @@
-# Nuxt Minimal Starter
+# Blog App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Daftar Fitur
+1. List post dengan data dari https://dummyjson.com/docs/posts
+2. Halaman detail post dengan dynamic route
+3. Halaman login & fitur logout
+4. Tombol & halaman buat post
+5. Tombol & halaman edit post
+6. Tombol delete post
+7. Mock auth di Pinia
+8. State Management menggunakan Pinia (untuk auth & posts)
+9. Styling menggunakan [PrimeVue](https://primevue.org/)
+10. Responsive mobile-first
+11. Form Validation
+12. Feedback fetching posts dan edit/buat post
+13. Menggunakan Nuxt dan Typescript
 
 ## Setup
 
