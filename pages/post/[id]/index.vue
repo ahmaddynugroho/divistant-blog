@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const posts = usePostStore()
-const post = ref<Post>({})
+const post = ref()
 
 post.value = posts.detail(Number(route.params.id))
 </script>

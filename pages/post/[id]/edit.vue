@@ -5,6 +5,7 @@ definePageMeta({
 
 import { reactive } from "vue";
 import { useToast } from "primevue/usetoast";
+import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms";
 
 const route = useRoute();
 const toast = useToast();
@@ -18,8 +19,8 @@ const post = posts.detail(Number(route.params.id));
 initialValues.title = post.title;
 initialValues.body = post.body;
 
-const resolver = ({ values }) => {
-  const errors = {};
+const resolver = ({ values }: FormResolverOptions) => {
+  const errors: any = {};
 
   if (!values.title) {
     errors.title = [{ message: "Title is required." }];
@@ -33,7 +34,7 @@ const resolver = ({ values }) => {
   };
 };
 
-const onFormSubmit = ({ valid, states }) => {
+const onFormSubmit = ({ valid, states }: FormSubmitEvent) => {
   if (valid) {
     const { title, body } = states
     const { success } = posts.edit(Number(route.params.id), title.value, body.value)
@@ -55,7 +56,7 @@ const onFormSubmit = ({ valid, states }) => {
       <NavBar class="mb-4" />
 
       <Form
-        v-slot="$form"
+        v-slot="$form: any"
         :initialValues
         :resolver
         @submit="onFormSubmit"
