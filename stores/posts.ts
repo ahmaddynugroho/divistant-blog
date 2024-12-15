@@ -43,18 +43,18 @@ export const usePostStore = defineStore("postStore", {
       return this.posts.find((p) => p.id === id) as Post;
     },
     edit(id: number, title: string, body: string) {
-      const i = this.posts.findIndex((p) => p.id === id)
-      this.posts[i].title = title
-      this.posts[i].body = body
-      return { success: true }
+      const i = this.posts.findIndex((p) => p.id === id);
+      this.posts[i].title = title;
+      this.posts[i].body = body;
+      return { success: true };
     },
     add(title: string, body: string) {
       this.posts.push({
         id: Date.now(),
         title,
         body,
-      })
-      return { success: true }
-    }
+      });
+      return { success: true };
+    },
   },
 });

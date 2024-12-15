@@ -6,22 +6,19 @@ if (posts.posts.length === 0) {
   posts.fetch();
 }
 
-const { loggedIn } = useUserSession()
+const { loggedIn } = useUserSession();
 </script>
 
 <template>
   <div class="m-4">
     <NavBar class="mb-4" />
 
-    <Message
-      v-if="posts.posts.length === 0"
-      severity="info"
-      size="small"
+    <Message v-if="posts.posts.length === 0" severity="info" size="small"
       >Fetching posts...</Message
     >
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-      <Card v-for="p in posts.posts" class="bg-primary-800">
+      <Card v-for="p in posts.posts" :key="p.id" class="bg-primary-800">
         <template #title>
           <NuxtLink :to="'/post/' + p.id">
             {{ p.title }}
@@ -34,16 +31,20 @@ const { loggedIn } = useUserSession()
           </p>
         </template>
 
-        <template #footer v-if="loggedIn">
+        <template v-if="loggedIn" #footer>
           <div class="flex gap-4 mt-1">
             <Button
               label="Delete"
-              @click="() => posts.delete(p.id)"
               severity="secondary"
               outlined
               class="w-full"
+              @click="() => posts.delete(p.id)"
             />
-            <Button label="Edit" @click="async () => await navigateTo('/post/' + p.id + '/edit')" class="w-full" />
+            <Button
+              label="Edit"
+              class="w-full"
+              @click="async () => await navigateTo('/post/' + p.id + '/edit')"
+            />
           </div>
         </template>
       </Card>

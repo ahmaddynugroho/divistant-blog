@@ -1,13 +1,14 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: ['auth']
-})
-
 import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms";
 import { Password } from "primevue";
 import { reactive } from "vue";
+import type { FormError } from "~/types/Form";
 
-const { fetch } = useUserSession()
+definePageMeta({
+  middleware: ["auth"],
+});
+
+const { fetch } = useUserSession();
 const isFetching = ref(false);
 const loginError = ref(false);
 
@@ -17,7 +18,10 @@ const initialValues = reactive({
 });
 
 const resolver = ({ values }: FormResolverOptions) => {
-  const errors: any = {};
+  const errors: {
+    username?: FormError[];
+    password?: FormError[];
+  } = {};
 
   if (!values.username) {
     errors.username = [{ message: "Username is required." }];
@@ -33,25 +37,25 @@ const resolver = ({ values }: FormResolverOptions) => {
 
 const onFormSubmit = async ({ valid, states }: FormSubmitEvent) => {
   if (valid) {
-    isFetching.value = true
+    isFetching.value = true;
 
     try {
-      await $fetch('/api/login', {
-        method: 'post',
+      await $fetch("/api/login", {
+        method: "post",
         body: {
           username: states.username.value,
           password: states.password.value,
-        }
-      })
+        },
+      });
 
-      await fetch()
-      await navigateTo('/')
+      await fetch();
+      await navigateTo("/");
     } catch (error) {
-      loginError.value = true
-      console.log('error', error)
+      loginError.value = true;
+      console.log("error", error);
     }
 
-    isFetching.value = false
+    isFetching.value = false;
   }
 };
 </script>
@@ -60,11 +64,11 @@ const onFormSubmit = async ({ valid, states }: FormSubmitEvent) => {
   <div class="p-4 flex justify-center w-full">
     <!-- <p v-if="auth.loggedIn">logged in {{ auth.user }}</p> -->
     <Form
-      v-slot="$form: any"
-      :initialValues
+      v-slot="$form"
+      :initial-values
       :resolver
-      @submit="onFormSubmit"
       class="flex flex-col gap-4 w-full sm:w-56"
+      @submit="onFormSubmit"
     >
       <div class="flex flex-col gap-1">
         <Message v-if="loginError" size="small" severity="error"
@@ -94,7 +98,12 @@ const onFormSubmit = async ({ valid, states }: FormSubmitEvent) => {
           >{{ $form.password.error?.message }}</Message
         >
       </div>
-      <Button :loading="isFetching" type="submit" severity="secondary" label="Submit" />
+      <Button
+        :loading="isFetching"
+        type="submit"
+        severity="secondary"
+        label="Submit"
+      />
     </Form>
     <!-- <Button v-if="auth.loggedIn" severity="secondary" label="Logout" @click="auth.logout()" /> -->
   </div>

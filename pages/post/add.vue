@@ -1,11 +1,12 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: ['auth']
-})
-
 import { reactive } from "vue";
 import { useToast } from "primevue/usetoast";
 import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms";
+import type { FormError } from "~/types/Form";
+
+definePageMeta({
+  middleware: ["auth"],
+});
 
 const toast = useToast();
 const posts = usePostStore();
@@ -16,7 +17,10 @@ const initialValues = reactive({
 });
 
 const resolver = ({ values }: FormResolverOptions) => {
-  const errors: any = {};
+  const errors: {
+    title?: FormError[];
+    body?: FormError[];
+  } = {};
 
   if (!values.title) {
     errors.title = [{ message: "Title is required." }];
@@ -32,15 +36,15 @@ const resolver = ({ values }: FormResolverOptions) => {
 
 const onFormSubmit = ({ valid, states }: FormSubmitEvent) => {
   if (valid) {
-    const { title, body } = states
-    const { success } = posts.add(title.value, body.value)
+    const { title, body } = states;
+    const { success } = posts.add(title.value, body.value);
     if (success) {
       toast.add({
         severity: "success",
         summary: "Post added!",
         life: 3000,
       });
-      return navigateTo('/')
+      return navigateTo("/");
     }
   }
 };
@@ -52,11 +56,11 @@ const onFormSubmit = ({ valid, states }: FormSubmitEvent) => {
       <NavBar class="mb-4" />
 
       <Form
-        v-slot="$form: any"
-        :initialValues
+        v-slot="$form"
+        :initial-values
         :resolver
-        @submit="onFormSubmit"
         class="flex flex-col gap-4 w-full sm:w-56"
+        @submit="onFormSubmit"
       >
         <InputText name="title" type="text" placeholder="Title" fluid />
         <Message
@@ -78,7 +82,6 @@ const onFormSubmit = ({ valid, states }: FormSubmitEvent) => {
 
         <Button type="submit" severity="secondary" label="Submit" />
       </Form>
-    
     </div>
   </div>
 </template>

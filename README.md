@@ -1,7 +1,9 @@
 # Blog App
+
 site: https://divistant-blog.vercel.app/
 
 ## Daftar Fitur
+
 1. List post dengan data dari https://dummyjson.com/docs/posts
 2. Halaman detail post dengan dynamic route
 3. Halaman login & fitur logout

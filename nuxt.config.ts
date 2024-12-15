@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import Aura from "@primevue/themes/aura";
 import { definePreset } from "@primevue/themes";
-
 const Noir = definePreset(Aura, {
   semantic: {
     primary: {
@@ -59,6 +58,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@pinia/nuxt",
     "nuxt-auth-utils",
+    "@nuxt/eslint",
   ],
   postcss: {
     plugins: {
@@ -74,8 +74,8 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/dummy/**': {
-      proxy: { to: 'https://dummyjson.com/**' }
-    }
-  }
+    "/dummy/**": {
+      proxy: { to: "https://dummyjson.com/**" },
+    },
+  },
 });
