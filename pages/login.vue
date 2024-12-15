@@ -1,21 +1,23 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["auth"]
+  middleware: ['auth']
 })
 
+import type { FormResolverOptions, FormSubmitEvent } from "@primevue/forms";
 import { Password } from "primevue";
 import { reactive } from "vue";
 
-const auth = useAuthStore();
+const { fetch } = useUserSession()
+const isFetching = ref(false);
 const loginError = ref(false);
 
 const initialValues = reactive({
-  username: "admin",
-  password: "admin123",
+  username: "emilys",
+  password: "emilyspass",
 });
 
-const resolver = ({ values }) => {
-  const errors = {};
+const resolver = ({ values }: FormResolverOptions) => {
+  const errors: any = {};
 
   if (!values.username) {
     errors.username = [{ message: "Username is required." }];
@@ -29,17 +31,27 @@ const resolver = ({ values }) => {
   };
 };
 
-const onFormSubmit = ({ valid, states }) => {
+const onFormSubmit = async ({ valid, states }: FormSubmitEvent) => {
   if (valid) {
-    const { success } = auth.login(
-      states.username.value,
-      states.password.value,
-    );
-    if (success) {
-      return navigateTo("/");
-    } else {
-      loginError.value = true;
+    isFetching.value = true
+
+    try {
+      await $fetch('/api/login', {
+        method: 'post',
+        body: {
+          username: states.username.value,
+          password: states.password.value,
+        }
+      })
+
+      await fetch()
+      await navigateTo('/')
+    } catch (error) {
+      loginError.value = true
+      console.log('error', error)
     }
+
+    isFetching.value = false
   }
 };
 </script>
@@ -48,7 +60,7 @@ const onFormSubmit = ({ valid, states }) => {
   <div class="p-4 flex justify-center w-full">
     <!-- <p v-if="auth.loggedIn">logged in {{ auth.user }}</p> -->
     <Form
-      v-slot="$form"
+      v-slot="$form: any"
       :initialValues
       :resolver
       @submit="onFormSubmit"
@@ -82,7 +94,7 @@ const onFormSubmit = ({ valid, states }) => {
           >{{ $form.password.error?.message }}</Message
         >
       </div>
-      <Button type="submit" severity="secondary" label="Submit" />
+      <Button :loading="isFetching" type="submit" severity="secondary" label="Submit" />
     </Form>
     <!-- <Button v-if="auth.loggedIn" severity="secondary" label="Logout" @click="auth.logout()" /> -->
   </div>

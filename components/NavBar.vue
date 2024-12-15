@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const auth = useAuthStore()
+const { loggedIn, clear } = useUserSession()
 </script>
 
 <template>
@@ -11,23 +11,23 @@ const auth = useAuthStore()
       outlined
     />
     <Button
-      v-if="auth.loggedIn"
+      v-if="loggedIn"
       label="Add Post"
       @click="async () => await navigateTo('/post/add')"
       severity="secondary"
       outlined
     />
     <Button
-      v-if="!auth.loggedIn"
+      v-if="!loggedIn"
       label="Login"
       @click="async () => await navigateTo('/login')"
       severity="secondary"
       outlined
     />
     <Button
-      v-if="auth.loggedIn"
+      v-if="loggedIn"
       label="Logout"
-      @click="auth.logout"
+      @click="clear"
       severity="secondary"
       outlined
     />

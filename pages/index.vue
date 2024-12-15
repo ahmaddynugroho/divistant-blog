@@ -6,7 +6,7 @@ if (posts.posts.length === 0) {
   posts.fetch();
 }
 
-const auth = useAuthStore()
+const { loggedIn } = useUserSession()
 </script>
 
 <template>
@@ -34,7 +34,7 @@ const auth = useAuthStore()
           </p>
         </template>
 
-        <template #footer v-if="auth.loggedIn">
+        <template #footer v-if="loggedIn">
           <div class="flex gap-4 mt-1">
             <Button
               label="Delete"

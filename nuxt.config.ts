@@ -73,4 +73,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  routeRules: {
+    '/dummy/**': {
+      proxy: { to: 'https://dummyjson.com/**' }
+    }
+  }
 });

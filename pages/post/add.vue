@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['auth']
+})
+
 import { reactive } from "vue";
 import { useToast } from "primevue/usetoast";
 

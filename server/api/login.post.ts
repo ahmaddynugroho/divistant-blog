@@ -1,21 +1,29 @@
-export type LoginResponse = {
-  isSuccess: boolean;
-};
+type DummyUser = {
+  id: number,
+  username: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  gender: string,
+  image: string,
+  accessToken: string,
+  refreshToken: string
+}
 
-export default defineEventHandler(async (event): Promise<LoginResponse> => {
+export default defineEventHandler(async (event) => {
   const { username, password } = await readBody(event);
-  if (username === "admin" && password === "admin123") {
-    await setUserSession(event, {
-      user: {
-        username,
-      },
-    });
 
-    return {
-      isSuccess: true,
-    };
-  }
-  return {
-    isSuccess: false,
-  };
+  const res: DummyUser = await $fetch('/dummy/auth/login', {
+    method: 'post',
+    body: {
+      username,
+      password
+    }
+  })
+
+  await setUserSession(event, {
+    user: {...res}
+  })
+
+  return { status: 'success', user: res }
 });
